@@ -1,8 +1,8 @@
 export class Loginpage {
   constructor(page) {
     this.page = page;
-    this.username = page.locator('[name="username"]');
-    this.password = page.locator("input[name='password']");
+    this.username = page.locator('[name="email"]');
+    this.password = page.locator('[name="pass"]');
     this.submit = page.locator('button._aswp._aswr._aswu._asw_._asx2');
     this.saveInfo = page.locator('button:has-text("Save info")');
   }
