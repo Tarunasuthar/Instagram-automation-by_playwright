@@ -19,6 +19,16 @@ pipeline {
                 sh 'npx playwright test'
             }
         }
+        stage('Run in parallel') {
+    parallel {
+        stage('Batch A') {
+            steps { sh 'npx playwright test tests/batchA' }
+        }
+        stage('Batch B') {
+            steps { sh 'npx playwright test tests/batchB' }
+        }
+    }
+}
     }
     post {
         always {
