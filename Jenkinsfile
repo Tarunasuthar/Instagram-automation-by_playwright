@@ -14,21 +14,20 @@ pipeline {
                 sh 'npx playwright install'
             }
         }
-        stage('Run tests') {
-            steps {
-                sh 'npx playwright test'
+       stage('Run tests in parallel') {
+            parallel {
+                stage('Login test') {
+                    steps {
+                        sh 'npx playwright test tests/Login_insta.spec.js'
+                    }
+                }
+                stage('Main test') {
+                    steps {
+                        sh 'npx playwright test tests/Main.spec.js'
+                    }
+                }
             }
         }
-        stage('Run in parallel') {
-    parallel {
-        stage('Batch A') {
-            steps { sh 'npx playwright test tests/batchA' }
-        }
-        stage('Batch B') {
-            steps { sh 'npx playwright test tests/batchB' }
-        }
-    }
-}
     }
     post {
         always {
