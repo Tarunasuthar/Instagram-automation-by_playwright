@@ -17,7 +17,7 @@ const config = ({
   reporter:[['html',{open:'always'}]],
   use: {
       browserName:'chromium',
-      headless:false,
+      headless:true,
       screenshot : 'on',
       trace: 'retain-on-failure',
       
