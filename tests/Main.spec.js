@@ -4,7 +4,7 @@ import { Homepage } from '../pages/Homepage';
 import { Searchpage } from '../pages/Searchpage';
 import { Profilepage } from '../pages/Profilepage';
 
-test.only('login automation', async ({ page }) => {
+test('login automation', async ({ page }) => {
 
   const loginPage = new Loginpage(page);
   const homePage = new Homepage(page);
