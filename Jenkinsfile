@@ -1,37 +1,33 @@
 pipeline {
     agent any
-    tools {
-        nodejs 'Node20'
-    }
+
     stages {
-        stage('Install dependencies') {
+        stage('Install') {
             steps {
-                sh 'npm install'
+                sh 'npm ci'
+                sh 'npx playwright install --with-deps chromium'
             }
         }
-        stage('Install Playwright browsers') {
+
+        stage('Test') {
             steps {
-                sh 'npx playwright install'
-            }
-        }
-       stage('Run tests in parallel') {
-            parallel {
-                stage('Login test') {
-                    steps {
-                        sh 'npx playwright test tests/Login_insta.spec.js'
-                    }
-                }
-                stage('Main test') {
-                    steps {
-                        sh 'npx playwright test tests/Main.spec.js'
-                    }
-                }
+                sh 'npx playwright test'
             }
         }
     }
+
     post {
         always {
-            archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
+            publishHTML(target: [
+                reportDir: 'playwright-report',
+                reportFiles: 'index.html',
+                reportName: 'Playwright Report',
+                keepAll: true,
+                alwaysLinkToLastBuild: true,
+                allowMissing: false
+            ])
+
+            archiveArtifacts artifacts: 'test-results/**', allowEmptyArchive: true
         }
     }
 }
