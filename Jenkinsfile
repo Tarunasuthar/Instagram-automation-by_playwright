@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+     tools {
+        nodejs 'node20'   // must match the name you set above
+    }
     stages {
         stage('Install') {
             steps {
