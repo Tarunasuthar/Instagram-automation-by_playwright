@@ -2,7 +2,7 @@
 import { test, expect } from '@playwright/test';
 // import {page} from '@playwright/test';
 
-test.only('login automation',async ({page})=>{
+test('login automation',async ({page})=>{
    
     await page.goto("https://www.instagram.com/");
     const username = page.locator('[name="username"]')
