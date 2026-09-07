@@ -1,29 +1,32 @@
 // @ts-check
-import { defineConfig, devices } from '@playwright/test';
-
+const { defineConfig, devices } = require('@playwright/test');
 
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
-const config = ({
-
+module.exports = defineConfig({
   testDir: './tests',
-
-  timeout:40*1000,
-
-  expect:{
-    timeout:10000,
+  timeout: 40 * 1000,
+  expect: {
+    timeout: 10000,
   },
-  reporter:[['html',{open:'always'}]],
+
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 1 : 0,
+  workers: process.env.CI ? 2 : undefined,
+
+  reporter: [
+    ['html', { outputFolder: 'playwright-report', open: 'never' }],
+    ['list'],
+  ],
+
+  outputDir: 'test-results',
+
   use: {
-      browserName:'chromium',
-      headless:true,
-      screenshot : 'on',
-      trace: 'retain-on-failure',
-      
+    browserName: 'chromium',
+    headless: true,
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+    trace: 'retain-on-failure',
   },
-    
 });
-
- module.exports = config
-
