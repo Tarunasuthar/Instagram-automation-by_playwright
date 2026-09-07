@@ -26,7 +26,7 @@ pipeline {
                 reportName: 'Playwright Report',
                 keepAll: true,
                 alwaysLinkToLastBuild: true,
-                allowMissing: false
+                allowMissing: true
             ])
 
             archiveArtifacts artifacts: 'test-results/**', allowEmptyArchive: true
