@@ -1,16 +1,17 @@
+import { expect } from '@playwright/test';
+
 export class Homepage {
   constructor(page) {
     this.page = page;
-    this.homeNav = page.locator('nav');
-    this.searchIcon = page.locator('svg[aria-label="Search"]');
+    this.homeNav = page.getByRole('navigation');
+    this.searchLink = page.getByRole('link', { name: 'Search' });
   }
-  
+
   async waitForHome() {
-    await this.homeNav.waitFor({ state: 'visible', timeout: 15000 });
+    await expect(this.homeNav).toBeVisible({ timeout: 15000 });
   }
-  // open search bar
+
   async openSearch() {
-    await this.searchIcon.waitFor({ state: 'visible', timeout: 10000 });
-    await this.searchIcon.click();
+    await this.searchLink.click();
   }
 }
