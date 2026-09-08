@@ -1,23 +1,19 @@
+import { expect } from '@playwright/test';
+
 export class Searchpage {
   constructor(page) {
     this.page = page;
-    this.searchInput = page.locator('input[placeholder="Search"]');
-    this.resultsDialog = page.locator('div[role="dialog"]:visible');
+    this.searchInput = page.getByPlaceholder('Search');
   }
-  // search profile
+
   async searchUser(username) {
-    await this.searchInput.waitFor({ state: 'visible', timeout: 10000 });
     await this.searchInput.fill(username);
   }
-  // open first post
-  async openFirstResult(username) {
-    const user = this.page
-      .locator('a[role="link"]', {
-        hasText: username
-       }).first();
-    
 
-    await user.waitFor({ state: 'visible', timeout: 10000 });
-    await user.click();
+  async openFirstResult(username) {
+    const result = this.page.getByRole('link', { name: username }).first();
+    await expect(result).toBeVisible({ timeout: 10000 });
+    await result.click();
+    await expect(this.page).toHaveURL(new RegExp(username));
   }
 }
