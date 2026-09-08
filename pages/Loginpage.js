@@ -2,12 +2,12 @@ import { expect } from '@playwright/test';
 
 export class Loginpage {
   constructor(page) {
+    this.page = page;   // ← this was missing
+
     // Instagram serves two login variants: the classic page uses
     // name="username"/"password", the newer ?flo=true flow uses "email"/"pass".
     this.username = page.locator('input[name="username"], input[name="email"]');
     this.password = page.locator('input[type="password"]');
-    // Submit is a <div role="button" aria-label="Log in"> in the new flow
-    // and a real <button> in the classic one — getByRole covers both.
     this.submit = page.getByRole('button', { name: 'Log in', exact: true });
     this.saveInfo = page.getByRole('button', { name: 'Save info' });
   }
